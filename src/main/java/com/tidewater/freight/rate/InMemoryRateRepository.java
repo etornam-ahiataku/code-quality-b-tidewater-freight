@@ -1,4 +1,4 @@
-package com.tidewater.freight;
+package com.tidewater.freight.rate;
 
 import java.util.HashMap;
 import java.util.Map;

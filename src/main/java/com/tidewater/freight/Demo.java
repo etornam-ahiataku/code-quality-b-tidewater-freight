@@ -1,5 +1,7 @@
 package com.tidewater.freight;
 
+import com.tidewater.freight.pricing.ShippingCalculator;
+
 public class Demo {
     public static void main(String[] args) {
         ShippingCalculator calculator = new ShippingCalculator();

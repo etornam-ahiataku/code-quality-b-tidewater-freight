@@ -1,4 +1,7 @@
-package com.tidewater.freight;
+package com.tidewater.freight.pricing;
+
+import com.tidewater.freight.rate.InMemoryRateRepository;
+import com.tidewater.freight.rate.RateRepository;
 
 public class ShippingCalculator {
 

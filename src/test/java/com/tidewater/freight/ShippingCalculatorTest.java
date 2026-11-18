@@ -2,6 +2,8 @@ package com.tidewater.freight;
 
 import org.junit.jupiter.api.Test;
 
+import com.tidewater.freight.pricing.ShippingCalculator;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
