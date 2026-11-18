@@ -138,11 +138,29 @@ mvn verify                                                  # tests + JaCoCo rep
 mvn test-compile org.pitest:pitest-maven:mutationCoverage   # PIT report: target/pit-reports/index.html
 ```
 
-Run the demo and the tests before you change anything. Note what the demo prints for an unknown zone,
-and look carefully at whether the tests that pass actually prove anything.
+
+**JUnits and parameterized tests**
+```
+    Coverage includes;
+    - Valid and invalid shipment weights
+    - Null Zone and service-level validation.
+    - All repository rates
+    - Null repository zones
+    - Heavy-item boundary ; 29.99, 30 and above.
+    - Domestic , regional and international fees
+    - Standard and express service levels
+    - Calculated rule ordering and mockito interactions
+```
+
+**Find the Parameterized test here (inside the Test dir)**
+1. HeavyItemSurchargeRuleTest.java
+2. ZoneHandlingFeeRuleTest.java
+3. ExpressMultiplierRuleTest.java
+4. ShipmentRequestTest.java
+
 
 ## Contributions
 This project is part of a course assessment work, contribution isn't allowed. By for leanring purposes you can fork into your own repo and make your own updates to the code.
 
-#### By [etornam-ahiataku](https://github.com/etornam-ahiataku/code-quality-b-tidewater-freight)
+#### Maintained by [etornam-ahiataku](https://github.com/etornam-ahiataku/code-quality-b-tidewater-freight)
 Contact: [etornam-ahiataku](mailto:etornam-ahiataku@amalitech.com)
