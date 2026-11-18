@@ -2,6 +2,7 @@ package com.tidewater.freight.rate;
 
 import com.tidewater.freight.domain.Zone;
 import java.math.BigDecimal;
+import java.util.Map;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -29,5 +30,15 @@ class InMemoryRateRepositoryTest {
                 assertThrows(NullPointerException.class, () -> repository.findRate(null));
 
         assertEquals("zone", exception.getMessage());
+    }
+
+    @Test
+    void throwsWhenRateIsNotConfigured() {
+        InMemoryRateRepository repository = new InMemoryRateRepository(Map.of());
+
+        RateNotFoundException exception = assertThrows(
+                RateNotFoundException.class, () -> repository.findRate(Zone.DOMESTIC));
+
+        assertEquals("No rate configured for zone: DOMESTIC", exception.getMessage());
     }
 }
