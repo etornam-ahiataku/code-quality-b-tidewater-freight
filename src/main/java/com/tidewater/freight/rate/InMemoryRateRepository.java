@@ -4,6 +4,7 @@ import com.tidewater.freight.domain.Zone;
 import java.math.BigDecimal;
 import java.util.EnumMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class InMemoryRateRepository implements RateRepository {
 
@@ -17,6 +18,7 @@ public class InMemoryRateRepository implements RateRepository {
 
     @Override
     public BigDecimal findRate(Zone zone) {
+        Objects.requireNonNull(zone, "zone");
         BigDecimal rate = rates.get(zone);
         if (rate == null) {
             throw new RateNotFoundException(zone);
