@@ -11,9 +11,14 @@ public class InMemoryRateRepository implements RateRepository {
     private final Map<Zone, BigDecimal> rates = new EnumMap<>(Zone.class);
 
     public InMemoryRateRepository() {
-        rates.put(Zone.DOMESTIC, new BigDecimal("5.00"));
-        rates.put(Zone.REGIONAL, new BigDecimal("8.00"));
-        rates.put(Zone.INTERNATIONAL, new BigDecimal("15.00"));
+        this(Map.of(
+                Zone.DOMESTIC, new BigDecimal("5.00"),
+                Zone.REGIONAL, new BigDecimal("8.00"),
+                Zone.INTERNATIONAL, new BigDecimal("15.00")));
+    }
+
+    InMemoryRateRepository(Map<Zone, BigDecimal> rates) {
+        this.rates.putAll(Objects.requireNonNull(rates, "rates"));
     }
 
     @Override
