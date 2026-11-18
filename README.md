@@ -146,7 +146,7 @@ mvn test-compile org.pitest:pitest-maven:mutationCoverage   # PIT report: target
     - Null Zone and service-level validation.
     - All repository rates
     - Null repository zones
-    - Heavy-item boundary ; 29.99, 30 and above.
+    - Heavy-item surcharge applies only above 30 kg (including 29.99, 30 and 30.01 kg); non-positive weights are rejected.
     - Domestic , regional and international fees
     - Standard and express service levels
     - Calculated rule ordering and mockito interactions
