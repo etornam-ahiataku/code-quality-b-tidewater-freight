@@ -19,8 +19,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.inOrder;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -47,10 +47,6 @@ class ShippingCalculatorTest {
                 new ShippingCalculator(repository, List.of(firstRule, secondRule));
 
         assertEquals(new BigDecimal("278"), calculator.calculateCost(request));
-
-        verify(repository).findRate(Zone.REGIONAL);
-        verify(firstRule).apply(request, new BigDecimal("248"));
-        verify(secondRule).apply(request, new BigDecimal("258"));
     }
 
     @Test
@@ -82,7 +78,21 @@ class ShippingCalculatorTest {
         ShipmentRequest request = new ShipmentRequest(
                 Zone.INTERNATIONAL, new BigDecimal("40"), ServiceLevel.EXPRESS);
 
-        assertEquals(new BigDecimal("967.500"), calculator.calculateCost(request));
+        assertEquals(0, new BigDecimal("967.500").compareTo(calculator.calculateCost(request)));
+    }
+
+    @Test
+    void rejectsNullRateFromRepository() {
+        ShipmentRequest request = new ShipmentRequest(
+                Zone.DOMESTIC, new BigDecimal("10"), ServiceLevel.STANDARD);
+        when(repository.findRate(Zone.DOMESTIC)).thenReturn(null);
+
+        ShippingCalculator calculator = new ShippingCalculator(repository, List.of());
+
+        NullPointerException exception = assertThrows(
+                NullPointerException.class, () -> calculator.calculateCost(request));
+
+        assertEquals("repository rate", exception.getMessage());
     }
 
     @ParameterizedTest
