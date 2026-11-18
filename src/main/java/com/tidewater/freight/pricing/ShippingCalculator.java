@@ -1,42 +1,26 @@
 package com.tidewater.freight.pricing;
 
-import com.tidewater.freight.rate.InMemoryRateRepository;
+import com.tidewater.freight.domain.ShipmentRequest;
 import com.tidewater.freight.rate.RateRepository;
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Objects;
 
 public class ShippingCalculator {
 
-    // The calculator makes its own rate source, so callers and tests cannot give it another.
-    private final RateRepository repository = new InMemoryRateRepository();
+    private final RateRepository repository;
+    private final List<PricingRule> rules;
 
-    public double calculateCost(String zone, double weightKg, String serviceLevel) {
-        try {
-            double rate = repository.findRate(zone);
-            double cost = rate * weightKg;
+    public ShippingCalculator(RateRepository repository, List<PricingRule> rules) {
+        this.repository = Objects.requireNonNull(repository, "repository");
+        this.rules = List.copyOf(rules);
+    }
 
-            // zone-specific fees
-            if (zone.equals("DOMESTIC")) {
-                // no extra fee
-            } else if (zone.equals("REGIONAL")) {
-                cost = cost + 10; // handling fee
-            } else if (zone.equals("INTERNATIONAL")) {
-                cost = cost + 25; // customs handling
-            }
-
-            // heavy-item surcharge
-            if (weightKg > 30) {
-                cost = cost + 20;
-            }
-
-            // express costs more
-            if (serviceLevel.equals("EXPRESS")) {
-                cost = cost * 1.5;
-            }
-
-            System.out.println("Shipping " + zone + " (" + weightKg + "kg, " + serviceLevel + "): GHS " + cost);
-            return cost;
-        } catch (Exception e) {
-            // could not work out a rate (for example an unknown zone) - return zero
-            return 0;
+    public BigDecimal calculateCost(ShipmentRequest request) {
+        BigDecimal cost = repository.findRate(request.zone()).multiply(request.weightKg());
+        for (PricingRule rule : rules) {
+            cost = rule.apply(request, cost);
         }
+        return cost;
     }
 }
