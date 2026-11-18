@@ -15,14 +15,16 @@ class HeavyItemSurchargeRuleTest {
 
     @ParameterizedTest
     @CsvSource({
-            "29.99, 100",
-            "30, 100",
-            "30.01, 120"
+            "29.99, 100, 100",
+            "29.99, 37.25, 37.25",
+            "30, 100, 100",
+            "30.01, 100, 120"
     })
-    void appliesSurchargeOnlyAboveThirtyKilograms(BigDecimal weight, BigDecimal expected) {
+    void appliesSurchargeOnlyAboveThirtyKilograms(
+            BigDecimal weight, BigDecimal currentCost, BigDecimal expected) {
         ShipmentRequest request =
                 new ShipmentRequest(Zone.DOMESTIC, weight, ServiceLevel.STANDARD);
 
-        assertEquals(0, expected.compareTo(rule.apply(request, new BigDecimal("100"))));
+        assertEquals(0, expected.compareTo(rule.apply(request, currentCost)));
     }
 }
