@@ -8,7 +8,7 @@ public record ShipmentRequest(Zone zone, BigDecimal weightKg, ServiceLevel servi
         Objects.requireNonNull(zone, "zone");
         Objects.requireNonNull(serviceLevel, "serviceLevel");
         if (weightKg == null || weightKg.signum() <= 0) {
-            throw new IllegalArgumentException("weightKg must not be less than or equals to 0");
+            throw new IllegalArgumentException("weightKg must be greater than zero");
         }
     }
 }
