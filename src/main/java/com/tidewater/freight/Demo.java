@@ -1,8 +1,12 @@
 package com.tidewater.freight;
 
-import com.tidewater.freight.domain.*;
+import com.tidewater.freight.domain.ServiceLevel;
+import com.tidewater.freight.domain.ShipmentRequest;
+import com.tidewater.freight.domain.Zone;
 import com.tidewater.freight.pricing.ShippingCalculator;
-import com.tidewater.freight.pricing.rules.*;
+import com.tidewater.freight.pricing.rules.ExpressMultiplierRule;
+import com.tidewater.freight.pricing.rules.HeavyItemSurchargeRule;
+import com.tidewater.freight.pricing.rules.ZoneHandlingFeeRule;
 import com.tidewater.freight.rate.InMemoryRateRepository;
 import java.math.BigDecimal;
 import java.util.List;
