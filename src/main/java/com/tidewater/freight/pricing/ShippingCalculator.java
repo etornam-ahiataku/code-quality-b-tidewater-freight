@@ -17,6 +17,7 @@ public class ShippingCalculator {
     }
 
     public BigDecimal calculateCost(ShipmentRequest request) {
+        Objects.requireNonNull(request, "request");
         BigDecimal cost = repository.findRate(request.zone()).multiply(request.weightKg());
         for (PricingRule rule : rules) {
             cost = rule.apply(request, cost);
