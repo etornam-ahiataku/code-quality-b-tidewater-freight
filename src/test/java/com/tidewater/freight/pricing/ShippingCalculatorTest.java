@@ -12,7 +12,6 @@ import java.math.BigDecimal;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InOrder;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -20,7 +19,6 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -59,12 +57,7 @@ class ShippingCalculatorTest {
 
         ShippingCalculator calculator =
                 new ShippingCalculator(repository, List.of(firstRule, secondRule));
-        calculator.calculateCost(request);
-
-        InOrder order = inOrder(repository, firstRule, secondRule);
-        order.verify(repository).findRate(Zone.DOMESTIC);
-        order.verify(firstRule).apply(request, new BigDecimal("50"));
-        order.verify(secondRule).apply(request, new BigDecimal("60"));
+        assertEquals(new BigDecimal("70"), calculator.calculateCost(request));
     }
 
     @Test
